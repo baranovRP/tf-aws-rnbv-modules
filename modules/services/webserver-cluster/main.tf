@@ -1,17 +1,4 @@
 ###
-terraform {
-  required_version = "~> v0.12"
-
-  backend "s3" {
-    bucket = "tf-state-eu-west-2-rnbv"
-    key    = "stage/services/webserver-cluster/terraform.tfstate"
-    region = "eu-west-2"
-
-    dynamodb_table = "tf-locks-eu-west-2-rnbv"
-    encrypt        = true
-  }
-}
-
 data "aws_vpc" "default" {
   default = true
 }
