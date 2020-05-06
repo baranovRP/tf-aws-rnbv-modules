@@ -33,11 +33,13 @@ data "terraform_remote_state" "db" {
 data "template_file" "user_data" {
   template = file("${path.module}/user_data.sh")
 
+  /*
   vars = {
     server_port = local.server_port
     db_address  = data.terraform_remote_state.db.outputs.address
     db_port     = data.terraform_remote_state.db.outputs.port
   }
+*/
 }
 
 resource "aws_launch_configuration" "tf_ami" {
@@ -71,6 +73,13 @@ resource "aws_autoscaling_group" "web_cluster" {
 
 resource "aws_security_group" "web_dmz" {
   name = "${var.cluster_name}-web-dmz"
+}
+
+module "ssh_security_group" {
+  source  = "terraform-aws-modules/security-group/aws//modules/ssh"
+  version = "~> 3.0"
+
+  # omitted...
 }
 
 resource "aws_security_group_rule" "allow_ssh_instance" {
