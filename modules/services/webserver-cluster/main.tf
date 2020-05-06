@@ -75,13 +75,6 @@ resource "aws_security_group" "web_dmz" {
   name = "${var.cluster_name}-web-dmz"
 }
 
-module "ssh_security_group" {
-  source  = "terraform-aws-modules/security-group/aws//modules/ssh"
-  version = "~> 3.0"
-
-  # omitted...
-}
-
 resource "aws_security_group_rule" "allow_ssh_instance" {
   type              = "ingress"
   security_group_id = aws_security_group.web_dmz.id
